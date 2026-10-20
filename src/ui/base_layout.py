@@ -15,38 +15,71 @@ def style_background_home():
                 overflow-x: hidden !important;
             }
 
-            /* Glassmorphic role selection cards with smooth entrance */
+            /* Glassmorphic role selection cards with smooth entrance & multi-layer shadow */
             .stApp div[data-testid="stColumn"] {
-                background: rgba(255, 255, 255, 0.85) !important;
-                backdrop-filter: blur(24px) !important;
-                -webkit-backdrop-filter: blur(24px) !important;
-                padding: 3rem 2.2rem !important;
-                border-radius: 2rem !important;
-                border: 1px solid rgba(15, 23, 42, 0.07) !important;
-                box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+                background: #ffffff !important;
+                backdrop-filter: blur(28px) !important;
+                -webkit-backdrop-filter: blur(28px) !important;
+                padding: 2.8rem 2.4rem !important;
+                border-radius: 32px !important;
+                border: 1px solid rgba(15, 23, 42, 0.08) !important;
+                box-shadow: 
+                    0 4px 6px -1px rgba(15, 23, 42, 0.03),
+                    0 16px 32px -4px rgba(15, 23, 42, 0.09),
+                    0 32px 64px -12px rgba(15, 23, 42, 0.13),
+                    0 0 0 1px rgba(15, 23, 42, 0.05) !important;
                 transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
                 animation: fadeSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both !important;
-                text-align: center !important;
                 display: flex !important;
                 flex-direction: column !important;
-                align-items: center !important;
+                justify-content: space-between !important;
+                min-height: 520px !important;
+                text-align: left !important;
             }
 
             .stApp div[data-testid="stColumn"]:hover {
-                transform: translateY(-6px) !important;
-                box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(15, 23, 42, 0.1) !important;
-                background: rgba(255, 255, 255, 0.95) !important;
+                transform: translateY(-8px) !important;
+                box-shadow: 
+                    0 8px 16px -2px rgba(15, 23, 42, 0.05),
+                    0 24px 48px -6px rgba(15, 23, 42, 0.14),
+                    0 44px 80px -16px rgba(15, 23, 42, 0.2),
+                    0 0 0 1px rgba(15, 23, 42, 0.1) !important;
             }
 
-            .stApp div[data-testid="stColumn"] img {
+            /* Standardized image container for perfect vertical & horizontal centering */
+            .stApp div[data-testid="stColumn"] div[data-testid="stImage"] {
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                height: 180px !important;
+                margin: 1.2rem auto !important;
+                width: 100% !important;
+            }
+
+            .stApp div[data-testid="stColumn"] div[data-testid="stImage"] img {
+                max-height: 150px !important;
+                max-width: 150px !important;
+                width: auto !important;
+                height: auto !important;
+                object-fit: contain !important;
                 animation: floatSlow 5s ease-in-out infinite !important;
-                margin: 1.5rem auto !important;
-                filter: drop-shadow(0 15px 25px rgba(0,0,0,0.08)) !important;
+                filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.1)) !important;
                 transition: transform 0.4s ease !important;
             }
 
-            .stApp div[data-testid="stColumn"]:hover img {
-                transform: scale(1.06) !important;
+            .stApp div[data-testid="stColumn"]:hover div[data-testid="stImage"] img {
+                transform: scale(1.08) !important;
+            }
+
+            /* Pinned bottom button with unified baseline */
+            .stApp div[data-testid="stColumn"] div[data-testid="stButton"] {
+                width: 100% !important;
+                margin-top: auto !important;
+            }
+
+            .stApp div[data-testid="stColumn"] div[data-testid="stButton"] button {
+                width: 100% !important;
+                box-shadow: 0 8px 20px -4px rgba(10, 10, 12, 0.35), 0 2px 6px -1px rgba(10, 10, 12, 0.2) !important;
             }
         </style>
     """, unsafe_allow_html=True)
@@ -118,8 +151,8 @@ def style_base_layout():
             }
 
             .block-container {
-                padding-top: 2rem !important;
-                padding-bottom: 3rem !important;
+                padding-top: 1.2rem !important;
+                padding-bottom: 2.5rem !important;
                 max-width: 1100px !important;
                 animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both !important;
             }
