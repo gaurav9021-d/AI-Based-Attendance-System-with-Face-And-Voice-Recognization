@@ -161,59 +161,118 @@ def style_base_layout():
             }
 
             /* Sofi Health Signature Obsidian Pill Buttons */
-            button {
+            button,
+            div[data-testid="stButton"] button {
                 border-radius: 9999px !important;
                 background-color: #0a0a0c !important;
                 color: #ffffff !important;
-                font-weight: 600 !important;
+                font-weight: 700 !important;
                 font-size: 0.95rem !important;
                 padding: 12px 28px !important;
-                border: 1px solid rgba(255, 255, 255, 0.15) !important;
-                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08) !important;
+                border: 1px solid rgba(255, 255, 255, 0.2) !important;
+                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12) !important;
                 transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
                 letter-spacing: -0.01em !important;
                 cursor: pointer !important;
             }
 
-            button:hover {
-                transform: translateY(-2px) scale(1.02) !important;
-                background-color: #18181b !important;
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
-                border-color: rgba(255, 255, 255, 0.3) !important;
+            /* Explicitly force white text on inner p, span, and div tags inside obsidian buttons */
+            button p,
+            button span,
+            button div,
+            div[data-testid="stButton"] button p,
+            div[data-testid="stButton"] button span,
+            div[data-testid="stButton"] button div,
+            div[data-testid="stButton"] button[kind="primary"] p,
+            div[data-testid="stButton"] button[kind="primary"] span {
+                color: #ffffff !important;
+                font-weight: 700 !important;
+                font-size: 0.95rem !important;
+                letter-spacing: -0.01em !important;
+                text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
             }
 
-            button:active {
+            button:hover,
+            div[data-testid="stButton"] button:hover {
+                transform: translateY(-2px) scale(1.02) !important;
+                background-color: #18181b !important;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+                border-color: rgba(255, 255, 255, 0.4) !important;
+            }
+
+            button:hover p,
+            button:hover span,
+            button:hover div {
+                color: #ffffff !important;
+            }
+
+            button:active,
+            div[data-testid="stButton"] button:active {
                 transform: translateY(0) scale(0.99) !important;
             }
 
-            /* Secondary Pill Buttons (Refined Mauve Accent) */
-            button[kind="secondary"] {
+            /* Secondary Pill Buttons */
+            button[kind="secondary"],
+            div[data-testid="stButton"] button[kind="secondary"] {
                 border-radius: 9999px !important;
                 background-color: #f1f5f9 !important;
                 color: #0f172a !important;
-                border: 1px solid rgba(15, 23, 42, 0.12) !important;
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03) !important;
+                border: 1px solid rgba(15, 23, 42, 0.14) !important;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
             }
 
-            button[kind="secondary"]:hover {
+            button[kind="secondary"] p,
+            button[kind="secondary"] span,
+            button[kind="secondary"] div,
+            div[data-testid="stButton"] button[kind="secondary"] p,
+            div[data-testid="stButton"] button[kind="secondary"] span {
+                color: #0f172a !important;
+                font-weight: 700 !important;
+                text-shadow: none !important;
+            }
+
+            button[kind="secondary"]:hover,
+            div[data-testid="stButton"] button[kind="secondary"]:hover {
                 background-color: #e2e8f0 !important;
-                color: #000000 !important;
+                border-color: rgba(15, 23, 42, 0.25) !important;
                 transform: translateY(-2px) scale(1.02) !important;
             }
 
+            button[kind="secondary"]:hover p,
+            button[kind="secondary"]:hover span {
+                color: #000000 !important;
+            }
+
             /* Tertiary Pill Buttons */
-            button[kind="tertiary"] {
+            button[kind="tertiary"],
+            div[data-testid="stButton"] button[kind="tertiary"] {
                 border-radius: 9999px !important;
                 background-color: #ffffff !important;
-                color: #475569 !important;
-                border: 1px solid rgba(15, 23, 42, 0.1) !important;
+                color: #1e293b !important;
+                border: 1px solid rgba(15, 23, 42, 0.12) !important;
                 box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02) !important;
             }
 
-            button[kind="tertiary"]:hover {
+            button[kind="tertiary"] p,
+            button[kind="tertiary"] span,
+            button[kind="tertiary"] div,
+            div[data-testid="stButton"] button[kind="tertiary"] p,
+            div[data-testid="stButton"] button[kind="tertiary"] span {
+                color: #1e293b !important;
+                font-weight: 600 !important;
+                text-shadow: none !important;
+            }
+
+            button[kind="tertiary"]:hover,
+            div[data-testid="stButton"] button[kind="tertiary"]:hover {
                 background-color: #f8fafc !important;
                 color: #0f172a !important;
-                border-color: rgba(15, 23, 42, 0.2) !important;
+                border-color: rgba(15, 23, 42, 0.25) !important;
+            }
+
+            button[kind="tertiary"]:hover p,
+            button[kind="tertiary"]:hover span {
+                color: #0f172a !important;
             }
 
             /* Form Input Polish */
