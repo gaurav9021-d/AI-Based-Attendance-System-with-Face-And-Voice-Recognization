@@ -13,18 +13,17 @@
 - **Core Value Proposition**: Eliminates manual roll calls by combining **Multi-Face Computer Vision** from classroom photos and **Voice Speaker Identification** from ambient audio recordings, paired with QR-code course self-enrollment.
 - **Brand Personality**: Playful yet modern, academic, futuristic, accessible, and fast.
 
-### Visual Foundations & Color Tokens
+### Visual Foundations & Color Tokens (Sofi Health Design Language)
 | Token | Value | Description / Usage |
 | :--- | :--- | :--- |
-| **Primary (Brand Blue)** | `#5865F2` | Main buttons, active tabs, header accents |
-| **Secondary (Accent Pink)** | `#EB459E` | Secondary actions, badges, logout buttons, card highlights |
-| **App Background (Home)** | `#5865F2` | Vibrant brand backdrop on landing page |
-| **App Background (Dashboard)** | `#E0E3FF` / `#F1F5F9` | Clean, high-legibility canvas for data screens |
-| **Surface / Card Background** | `#FFFFFF` | Crisp elevated white containers with rounded corners |
-| **Border & Outlines** | `#000000` or `#E2E8F0` | Defined card borders (neo-brutalist or modern glass card) |
-| **Typography (Display)** | `'Climate Crisis', 'Outfit', sans-serif` | Bold, impactful headline typography |
-| **Typography (Body & UI)** | `'Outfit', 'Inter', -apple-system` | Legible, clean dashboard typography |
-| **Border Radius** | Cards: `20px` / `1.5rem`, Buttons: `24px` / `1.5rem` | Friendly, pill-shaped and rounded aesthetics |
+| **Canvas Background** | `#FBFBFA` + Radial Glows | Multi-stop ambient radial glow (`rgba(199, 210, 254, 0.45)`, `rgba(224, 231, 255, 0.55)`) |
+| **Primary Buttons** | `#0A0A0C` (Obsidian) | Full pill border-radius (`9999px`), crisp white text, hover lift (`translateY(-2px) scale(1.02)`) |
+| **Secondary Buttons** | `#F1F5F9` (Soft Slate) | Full pill border-radius (`9999px`), subtle border, dark slate text |
+| **Tertiary Buttons** | `#FFFFFF` (White Pill) | Clean white pill button with subtle shadow and border |
+| **Surface / Glass Cards**| `rgba(255, 255, 255, 0.88)` | 24-28px border-radius, backdrop-filter blur (`24px`), border `rgba(15, 23, 42, 0.08)` |
+| **Typography (Display)**| `'Plus Jakarta Sans', sans-serif` | Editorial lowercase tone, tight letter spacing (`-0.045em`), weight `800` |
+| **Typography (Body & UI)**| `'Plus Jakarta Sans', -apple-system` | Clean modern sans-serif, letter spacing (`-0.025em`), weights `400/500/600` |
+| **Motion Keyframes** | `@keyframes fadeSlideUp`, `@keyframes floatSlow` | Smooth 0.6s cubic-bezier entrance and 5s slow floating mascot animations |
 
 ---
 
