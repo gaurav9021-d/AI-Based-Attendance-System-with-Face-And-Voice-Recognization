@@ -40,44 +40,51 @@ def teacher_screen():
 
 def teacher_dashboard():
     teacher_data = st.session_state.teacher_data
-    c1, c2 = st.columns(2, vertical_alignment='center', gap='xxlarge')
+    c1, c2 = st.columns([3, 2], vertical_alignment='center')
     with c1:
         header_dashboard()
     with c2:
-        st.subheader(f"""Welcome, {teacher_data['name']} """)
-        if st.button("Logout", type='secondary', key='loginbackbtn', shortcut="control+backspace"):
-            st.session_state['is_logged_in'] = False
-            del st.session_state.teacher_data 
-            st.rerun()
+        st.markdown(f"""
+            <div style="text-align:right;">
+                <span style="font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#64748b;">authenticated educator</span>
+                <div style="font-size:1.4rem; font-weight:800; color:#0b0f19; letter-spacing:-0.03em;">welcome, {teacher_data['name'].lower()}</div>
+            </div>
+        """, unsafe_allow_html=True)
+        st.markdown("<div style='height:4px;'></div>", unsafe_allow_html=True)
+        col_dummy, col_logout = st.columns([1, 1])
+        with col_logout:
+            if st.button("log out", type='secondary', key='loginbackbtn', shortcut="control+backspace", width='stretch'):
+                st.session_state['is_logged_in'] = False
+                del st.session_state.teacher_data 
+                st.rerun()
 
-
-    st.space()
+    st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
 
     if "current_teacher_tab" not in st.session_state:
         st.session_state.current_teacher_tab = 'take_attendance'
+    
+    # Sofi Health Pill Navigation Switcher
     tab1, tab2, tab3 = st.columns(3)
-
 
     with tab1:
         type1 = "primary" if st.session_state.current_teacher_tab == 'take_attendance' else "tertiary"
-        if st.button('Take Attendance',type=type1, width='stretch', icon=':material/ar_on_you:'):
+        if st.button('take attendance', type=type1, width='stretch', icon=':material/ar_on_you:'):
             st.session_state.current_teacher_tab = 'take_attendance'
             st.rerun()
 
     with tab2:
         type2 = "primary" if st.session_state.current_teacher_tab == 'manage_subjects' else "tertiary"
-        if st.button('Manage Subjects', type=type2, width='stretch', icon=':material/book_ribbon:'):
+        if st.button('manage subjects', type=type2, width='stretch', icon=':material/book_ribbon:'):
             st.session_state.current_teacher_tab = 'manage_subjects'
             st.rerun()
 
     with tab3:
         type3 = "primary" if st.session_state.current_teacher_tab == 'attendance_records' else "tertiary"
-        if st.button('Attendance Records',type=type3, width='stretch', icon=':material/cards_stack:'):
+        if st.button('attendance records', type=type3, width='stretch', icon=':material/cards_stack:'):
             st.session_state.current_teacher_tab = 'attendance_records'
             st.rerun()
 
-
-    st.divider()
+    st.markdown("<div style='margin-bottom:1.5rem;'></div>", unsafe_allow_html=True)
 
     if st.session_state.current_teacher_tab == "take_attendance":
         teacher_tab_take_attendance()
@@ -304,102 +311,121 @@ def login_teacher(username, password):
 
     return False
 def teacher_screen_login():
-    c1, c2 = st.columns(2, vertical_alignment='center', gap='xxlarge')
+    c1, c2 = st.columns([3, 2], vertical_alignment='center')
     with c1:
         header_dashboard()
     with c2:
-        if st.button("Go back to Home", type='secondary', key='loginbackbtn', shortcut="control+backspace"):
-            st.session_state['login_type'] = None
-            st.rerun()
-
-    st.header('Login using password', text_alignment='center')
-    st.space()
-    st.space()
-
-
-    teacher_username = st.text_input("Enter username", placeholder='ananyaroy')
-
-    teacher_pass = st.text_input("Enter password", type='password', placeholder="Enter password")
-
-    st.divider()
-
-    btnc1, btnc2 = st.columns(2)
-
-    with btnc1:
-        if st.button('Login', icon=':material/passkey:', shortcut='control+enter', width='stretch'):
-            if login_teacher(teacher_username, teacher_pass):
-                st.toast("welcome back!", icon="👋")
-                import time
-                time.sleep(1)
+        col_space, col_back = st.columns([1, 2])
+        with col_back:
+            if st.button("← back to home", type='secondary', key='loginbackbtn', shortcut="control+backspace", width='stretch'):
+                st.session_state['login_type'] = None
                 st.rerun()
-            else:
-                st.error("Invalid username and password combo")
 
-    with btnc2:
-        if st.button('Register Instead', type="primary", icon=':material/passkey:', width='stretch'):
-            st.session_state.teacher_login_type = 'register'
+    st.markdown("<div style='height:20px;'></div>", unsafe_allow_html=True)
 
+    # Centered Sofi Card Container
+    left_col, center_col, right_col = st.columns([1, 3, 1])
 
+    with center_col:
+        st.markdown("""
+            <div style="background:rgba(255, 255, 255, 0.9); backdrop-filter:blur(24px); border-radius:28px; padding:2.5rem 2.8rem; border:1px solid rgba(15, 23, 42, 0.08); box-shadow:0 20px 45px -15px rgba(0,0,0,0.06); animation:fadeSlideUp 0.6s ease both;">
+                <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(241, 245, 249, 0.8); border:1px solid rgba(15, 23, 42, 0.08); padding:5px 14px; border-radius:9999px; margin-bottom:1rem;">
+                    <span style="width:6px; height:6px; background:#3b82f6; border-radius:50%;"></span>
+                    <span style="font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#475569;">educator portal</span>
+                </div>
+                <h2 style="font-size:2.2rem; font-weight:800; color:#0b0f19; margin:0 0 6px 0; letter-spacing:-0.04em; line-height:1.1;">sign in to snapclass</h2>
+                <p style="font-size:0.95rem; color:#64748b; margin:0 0 1.8rem 0; line-height:1.5;">enter your educator credentials to manage course rosters and launch ai roll call</p>
+            </div>
+        """, unsafe_allow_html=True)
 
+        st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
+        teacher_username = st.text_input("Username", placeholder='e.g. ananyaroy', key="t_login_user")
+        teacher_pass = st.text_input("Password", type='password', placeholder="••••••••••••", key="t_login_pass")
+
+        st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
+
+        btnc1, btnc2 = st.columns(2)
+        with btnc1:
+            if st.button('sign in →', type='primary', shortcut='control+enter', width='stretch'):
+                if login_teacher(teacher_username, teacher_pass):
+                    st.toast("welcome back!", icon="👋")
+                    import time
+                    time.sleep(0.5)
+                    st.rerun()
+                else:
+                    st.error("invalid username or password combination")
+
+        with btnc2:
+            if st.button('create account', type="secondary", width='stretch'):
+                st.session_state.teacher_login_type = 'register'
+                st.rerun()
 
 
 def register_teacher(teacher_username, teacher_name, teacher_pass, teacher_pass_confirm):
     if not teacher_username or not teacher_name or not teacher_pass:
-        return False, "All Fields are required!"
+        return False, "all fields are required"
     if check_teacher_exists(teacher_username):
-        return False, "Username already taken"
+        return False, "username is already taken"
     if teacher_pass != teacher_pass_confirm:
-        return False, "Password doesn't match"
+        return False, "passwords do not match"
     
     try:
         create_teacher(teacher_username, teacher_pass, teacher_name)
-        return True, "Sucessfully Created! Login Now"
+        return True, "educator account created successfully! please sign in."
     except Exception as e:
-        return False, "Unexpected Error!"
+        return False, "unexpected error occurred"
     
 
 def teacher_screen_register():
-    c1, c2 = st.columns(2, vertical_alignment='center', gap='xxlarge')
+    c1, c2 = st.columns([3, 2], vertical_alignment='center')
     with c1:
         header_dashboard()
     with c2:
-        if st.button("Go back to Home", type='secondary', key='loginbackbtn', shortcut="control+backspace"):
-            st.session_state['login_type'] = None
-            st.rerun()
-
-
-
-    st.header('Register your teacher profile')
-
-    st.space()
-    st.space()
-
-    
-    teacher_username = st.text_input("Enter username", placeholder='ananyaroy')
-
-    teacher_name = st.text_input("Enter name", placeholder='Ananya Roy')
-
-    teacher_pass = st.text_input("Enter password", type='password', placeholder="Enter password")
-
-    teacher_pass_confirm = st.text_input("Confirm your password", type='password', placeholder="Enter password")
-
-    st.divider()
-
-    btnc1, btnc2 = st.columns(2)
-
-    with btnc1:
-        if st.button('Register now', icon=':material/passkey:', shortcut='control+enter', width='stretch'):
-            success, message = register_teacher(teacher_username, teacher_name, teacher_pass, teacher_pass_confirm)
-            if success:
-                st.success(message)
-                import time
-                time.sleep(2)
-                st.session_state.teacher_login_type = "login"
+        col_space, col_back = st.columns([1, 2])
+        with col_back:
+            if st.button("← back to home", type='secondary', key='loginbackbtn', shortcut="control+backspace", width='stretch'):
+                st.session_state['login_type'] = None
                 st.rerun()
-            else:
-                st.error(message)
 
+    st.markdown("<div style='height:20px;'></div>", unsafe_allow_html=True)
 
-    with btnc2:
-        if st.button('Login Instead', type="primary", icon=':material/passkey:', width='stretch'):
-            st.session_state.teacher_login_type = 'login'
+    # Centered Sofi Card Container
+    left_col, center_col, right_col = st.columns([1, 3, 1])
+
+    with center_col:
+        st.markdown("""
+            <div style="background:rgba(255, 255, 255, 0.9); backdrop-filter:blur(24px); border-radius:28px; padding:2.5rem 2.8rem; border:1px solid rgba(15, 23, 42, 0.08); box-shadow:0 20px 45px -15px rgba(0,0,0,0.06); animation:fadeSlideUp 0.6s ease both;">
+                <div style="display:inline-flex; align-items:center; gap:8px; background:rgba(241, 245, 249, 0.8); border:1px solid rgba(15, 23, 42, 0.08); padding:5px 14px; border-radius:9999px; margin-bottom:1rem;">
+                    <span style="width:6px; height:6px; background:#10b981; border-radius:50%;"></span>
+                    <span style="font-size:0.78rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:#475569;">educator onboarding</span>
+                </div>
+                <h2 style="font-size:2.2rem; font-weight:800; color:#0b0f19; margin:0 0 6px 0; letter-spacing:-0.04em; line-height:1.1;">create teacher account</h2>
+                <p style="font-size:0.95rem; color:#64748b; margin:0 0 1.8rem 0; line-height:1.5;">set up your teaching profile to organize subjects and track attendance</p>
+            </div>
+        """, unsafe_allow_html=True)
+
+        st.markdown("<div style='height:12px;'></div>", unsafe_allow_html=True)
+        teacher_username = st.text_input("Choose username", placeholder='e.g. ananyaroy', key="t_reg_user")
+        teacher_name = st.text_input("Full name", placeholder='e.g. Dr. Ananya Roy', key="t_reg_name")
+        teacher_pass = st.text_input("Create password", type='password', placeholder="••••••••••••", key="t_reg_pass")
+        teacher_pass_confirm = st.text_input("Confirm password", type='password', placeholder="••••••••••••", key="t_reg_pass2")
+
+        st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
+
+        btnc1, btnc2 = st.columns(2)
+        with btnc1:
+            if st.button('register profile →', type='primary', shortcut='control+enter', width='stretch'):
+                success, message = register_teacher(teacher_username, teacher_name, teacher_pass, teacher_pass_confirm)
+                if success:
+                    st.success(message)
+                    import time
+                    time.sleep(1.2)
+                    st.session_state.teacher_login_type = "login"
+                    st.rerun()
+                else:
+                    st.error(message)
+
+        with btnc2:
+            if st.button('already registered? sign in', type="secondary", width='stretch'):
+                st.session_state.teacher_login_type = 'login'
+                st.rerun()
