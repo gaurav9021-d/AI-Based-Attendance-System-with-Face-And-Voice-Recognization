@@ -54,9 +54,10 @@ def get_trained_model():
             X.append(np.array(embedding))
             y.append(student.get('student_id'))
 
-    if len(X) ==0:
-        return 0
+    if len(X) == 0:
+        return None
     
+    clf = SVC(kernel='linear', probability=True, class_weight='balanced')
     fitted = False
     if len(set(y)) >= 2:
         try:
@@ -80,7 +81,7 @@ def predict_attendance(class_image_np):
 
     model_data = get_trained_model()
 
-    if not model_data or not model_data.get('X'):
+    if not model_data or not isinstance(model_data, dict) or not model_data.get('X'):
         return detected_student, [], len(encodings)
     
     X_train = model_data['X']
