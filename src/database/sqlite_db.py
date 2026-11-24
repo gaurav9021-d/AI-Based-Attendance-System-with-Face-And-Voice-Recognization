@@ -73,58 +73,7 @@ def init_sqlite_db():
     """)
     conn.commit()
 
-    # Seed demo teacher and subjects if database is fresh
-    cursor.execute("SELECT COUNT(*) as count FROM teachers")
-    if cursor.fetchone()["count"] == 0:
-        hashed = bcrypt.hashpw("password123".encode(), bcrypt.gensalt()).decode()
-        cursor.execute(
-            "INSERT INTO teachers (username, password, name) VALUES (?, ?, ?)",
-            ("teacher", hashed, "Dr. Sarah Mitchell")
-        )
-        teacher_id = cursor.lastrowid
-
-        # Seed subjects
-        cursor.execute(
-            "INSERT INTO subjects (subject_code, name, section, teacher_id) VALUES (?, ?, ?, ?)",
-            ("CS101", "AI & Machine Learning", "Section A", teacher_id)
-        )
-        sub1_id = cursor.lastrowid
-
-        cursor.execute(
-            "INSERT INTO subjects (subject_code, name, section, teacher_id) VALUES (?, ?, ?, ?)",
-            ("CS202", "Computer Vision & Robotics", "Section B", teacher_id)
-        )
-        sub2_id = cursor.lastrowid
-
-        # Seed demo students
-        students_seed = [
-            ("Alex Johnson", None, None),
-            ("Priya Sharma", None, None),
-            ("David Lee", None, None),
-            ("Emma Watson", None, None)
-        ]
-        s_ids = []
-        for s_name, f_emb, v_emb in students_seed:
-            cursor.execute(
-                "INSERT INTO students (name, face_embedding, voice_embedding) VALUES (?, ?, ?)",
-                (s_name, f_emb, v_emb)
-            )
-            s_ids.append(cursor.lastrowid)
-
-        # Enroll students
-        for sid in s_ids[:3]:
-            cursor.execute(
-                "INSERT OR IGNORE INTO subject_students (subject_id, student_id) VALUES (?, ?)",
-                (sub1_id, sid)
-            )
-        for sid in s_ids[1:]:
-            cursor.execute(
-                "INSERT OR IGNORE INTO subject_students (subject_id, student_id) VALUES (?, ?)",
-                (sub2_id, sid)
-            )
-        
-        conn.commit()
-
+    # NOTE: Auto-seed removed — no fake demo data injected on first run.
     conn.close()
 
 

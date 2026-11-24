@@ -21,7 +21,7 @@ import pandas as pd
 from src.database.config import supabase
 
 
-from src.components.dialog_voice_attendance import voice_attendance_dialog
+from src.utils.session_persist import save_session, clear_session
 def teacher_screen():
 
     style_background_dashboard()
@@ -55,7 +55,8 @@ def teacher_dashboard():
         with col_logout:
             if st.button("log out", type='secondary', key='loginbackbtn', shortcut="control+backspace", width='stretch'):
                 st.session_state['is_logged_in'] = False
-                del st.session_state.teacher_data 
+                del st.session_state.teacher_data
+                clear_session()
                 st.rerun()
 
     st.markdown("<div style='height:16px;'></div>", unsafe_allow_html=True)
@@ -68,19 +69,19 @@ def teacher_dashboard():
 
     with tab1:
         type1 = "primary" if st.session_state.current_teacher_tab == 'take_attendance' else "tertiary"
-        if st.button('take attendance', type=type1, width='stretch', icon=':material/ar_on_you:'):
+        if st.button('📸  take attendance', type=type1, width='stretch'):
             st.session_state.current_teacher_tab = 'take_attendance'
             st.rerun()
 
     with tab2:
         type2 = "primary" if st.session_state.current_teacher_tab == 'manage_subjects' else "tertiary"
-        if st.button('manage subjects', type=type2, width='stretch', icon=':material/book_ribbon:'):
+        if st.button('📚  manage subjects', type=type2, width='stretch'):
             st.session_state.current_teacher_tab = 'manage_subjects'
             st.rerun()
 
     with tab3:
         type3 = "primary" if st.session_state.current_teacher_tab == 'attendance_records' else "tertiary"
-        if st.button('attendance records', type=type3, width='stretch', icon=':material/cards_stack:'):
+        if st.button('🗂️  attendance records', type=type3, width='stretch'):
             st.session_state.current_teacher_tab = 'attendance_records'
             st.rerun()
 
@@ -120,7 +121,7 @@ def teacher_tab_take_attendance():
         selected_subject_label = st.selectbox('Select Subject', options=list(subject_options.keys()))
 
     with col2:
-        if st.button('Add Photos', type='primary', icon=':material/photo_prints:', width='stretch'):
+        if st.button('📷  Add Photos', type='primary', width='stretch'):
             add_photos_dialog()
 
     selected_subject_id = subject_options[selected_subject_label]
@@ -138,14 +139,14 @@ def teacher_tab_take_attendance():
     c1, c2, c3 = st.columns(3)
 
     with c1:
-        if st.button('Clear all photos', width='stretch', type='tertiary', icon=':material/delete:', disabled=not has_photos):
+        if st.button('🗑️  Clear all photos', width='stretch', type='tertiary', disabled=not has_photos):
             st.session_state.attendance_images = []
             st.rerun()
 
 
     with c2:
         
-        if st.button('Run Face Analysis', width='stretch', type='secondary', icon=':material/analytics:', disabled=not has_photos):
+        if st.button('🔍  Run Face Analysis', width='stretch', type='secondary', disabled=not has_photos):
             with st.spinner('Deep scanning classroom photos...'):
                 all_detected_ids = {}
 
@@ -196,7 +197,7 @@ def teacher_tab_take_attendance():
                 attendance_result_dialog(pd.DataFrame(results), attendance_to_log)
 
     with c3:
-        if st.button('Use Voice Attendance', type='primary', width='stretch', icon=':material/mic:'):
+        if st.button('🎙️  Use Voice Attendance', type='primary', width='stretch'):
             voice_attendance_dialog(selected_subject_id)
 
 
@@ -230,9 +231,8 @@ def teacher_tab_manage_subjects():
             ]
             def make_share_btn(current_sub):
                 def share_btn():
-                    if st.button(f"Share Code: {current_sub['name']}", key=f"share_{current_sub['subject_code']}", icon=":material/share:"):
+                    if st.button(f"🔗  Share Code: {current_sub['name']}", key=f"share_{current_sub['subject_code']}"):
                         share_subject_dialog(current_sub['name'], current_sub['subject_code'])
-                    st.space()
                 return share_btn
 
             subject_card(
@@ -306,9 +306,10 @@ def login_teacher(username, password):
         st.session_state.user_role ='teacher'
         st.session_state.teacher_data = teacher
         st.session_state.is_logged_in = True
+        st.session_state.login_type = 'teacher'
+        save_session("teacher", teacher["teacher_id"])
         return True
     
-
     return False
 def teacher_screen_login():
     c1, c2 = st.columns([3, 2], vertical_alignment='center')
@@ -429,3 +430,5 @@ def teacher_screen_register():
             if st.button('already registered? sign in', type="secondary", width='stretch'):
                 st.session_state.teacher_login_type = 'login'
                 st.rerun()
+
+from src.components.dialog_voice_attendance import voice_attendance_dialog

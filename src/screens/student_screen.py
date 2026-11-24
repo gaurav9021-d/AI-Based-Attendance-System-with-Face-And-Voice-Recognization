@@ -13,6 +13,7 @@ import time
 
 from src.components.dialog_enroll import enroll_dialog
 from src.components.subject_card import subject_card
+from src.utils.session_persist import save_session, clear_session
 
 def student_dashboard():
     student_data = st.session_state.student_data
@@ -32,7 +33,8 @@ def student_dashboard():
         with col_logout:
             if st.button("log out", type='secondary', key='loginbackbtn', shortcut="control+backspace", width='stretch'):
                 st.session_state['is_logged_in'] = False
-                del st.session_state.student_data 
+                del st.session_state.student_data
+                clear_session()
                 st.rerun()
 
     st.markdown("<div style='height:20px;'></div>", unsafe_allow_html=True)
@@ -77,11 +79,13 @@ def student_dashboard():
         sid = sub['subject_id']
 
         stats = stats_map.get(sid,{"total":0, "attended": 0} )
-        def unenroll_button():
-                if st.button("unenroll from course", type='tertiary', width='stretch', icon=':material/delete_forever:'):
-                    unenroll_student_to_subject(student_id, sid)
-                    st.toast(f"unenrolled from {sub['name']} successfully!")
+        def make_unenroll_button(current_sub, current_sid):
+            def unenroll_button():
+                if st.button("🗑️  unenroll from course", type='tertiary', width='stretch', key=f"unenroll_{current_sid}"):
+                    unenroll_student_to_subject(student_id, current_sid)
+                    st.toast(f"unenrolled from {current_sub['name']} successfully!")
                     st.rerun()
+            return unenroll_button
 
         with cols[i % 2]:
             subject_card(
@@ -92,7 +96,7 @@ def student_dashboard():
                     ('📅', 'total sessions', stats['total']),
                     ('✅', 'attended', stats['attended']),
                 ],
-                footer_callback=unenroll_button
+                footer_callback=make_unenroll_button(sub, sid)
             )
 
 
@@ -147,6 +151,8 @@ def student_screen():
                 st.session_state.is_logged_in = True
                 st.session_state.user_role = 'student'
                 st.session_state.student_data = s_map[chosen]
+                st.session_state.login_type = 'student'
+                save_session("student", s_map[chosen]["student_id"])
                 st.toast(f"welcome back {s_map[chosen]['name']}!")
                 st.rerun()
 
@@ -171,7 +177,9 @@ def student_screen():
                         st.session_state.is_logged_in = True
                         st.session_state.user_role = 'student'
                         st.session_state.student_data = student
-                        st.toast(f'Welcome Back {student['name']}')
+                        st.session_state.login_type = 'student'
+                        save_session("student", student["student_id"])
+                        st.toast(f'Welcome Back {student["name"]}')
                         time.sleep(1)
                         st.rerun()
                 else:
@@ -212,6 +220,8 @@ def student_screen():
                                 st.session_state.is_logged_in = True
                                 st.session_state.user_role = 'student'
                                 st.session_state.student_data = response_data[0]
+                                st.session_state.login_type = 'student'
+                                save_session("student", response_data[0]["student_id"])
                                 st.toast(f'Profile Created! Hi {new_name}!')
                                 time.sleep(1)
                                 st.rerun()
